@@ -1,0 +1,238 @@
+:root {
+    --bg-color: #000000;
+    --card-bg: #111111;
+    --text-color: #ffffff;
+    --accent-color: #ffffff;
+    --border-color: #333333;
+    --input-bg: #000000;
+    --btn-primary-bg: #f0f0f0;
+    --btn-primary-text: #000000;
+    --btn-stop-bg: #f0f0f0;
+    --btn-stop-text: #000000;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 1200px;
+    /* Allow for wider layout to show flow if needed, or keep it centered */
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.icon-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+}
+
+.icon-btn:hover {
+    background-color: var(--card-bg);
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.screen {
+    position: absolute;
+    width: 100%;
+    max-width: 400px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    transform: translateY(10px);
+}
+
+.screen.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+    position: relative;
+    /* Allow it to take space */
+}
+
+.hidden {
+    display: none;
+    /* Completely hide to prevent layout issues */
+}
+
+.card {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-height: 500px;
+    justify-content: space-between;
+}
+
+.center-content {
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+label {
+    font-size: 1rem;
+    color: #cccccc;
+}
+
+input,
+select {
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    width: 100%;
+    appearance: none;
+    /* Remove default arrow */
+}
+
+.select-wrapper {
+    position: relative;
+}
+
+.select-wrapper::after {
+    content: 'v';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 0.8rem;
+}
+
+.primary-btn,
+.stop-btn {
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border: none;
+    padding: 1.2rem;
+    border-radius: 16px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s;
+    width: 100%;
+    margin-top: auto;
+}
+
+.stop-btn {
+    width: 200px;
+    height: 200px;
+    border-radius: 40px;
+    font-size: 1.5rem;
+    margin: 0;
+    /* Reset margin-top: auto */
+}
+
+.primary-btn:active,
+.stop-btn:active {
+    transform: scale(0.98);
+}
+
+/* Running Screen Stats */
+.stats-display {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.stat-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.stat-row .label {
+    font-size: 1rem;
+    color: #888;
+}
+
+.stat-row .value {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+/* Result Screen Stats */
+.result-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.result-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.result-item .label {
+    font-size: 1rem;
+    color: #888;
+}
+
+.result-item .value {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+input:disabled,
+select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #333;
+}

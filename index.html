@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Running Mate Controller</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Running mate</h1>
+            <button id="connectBtn" class="icon-btn" title="Connect to Arduino">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 7l10 10-5 5V2l5 5L7 17"></path>
+                </svg>
+                <span id="connectionStatus">Connect</span>
+            </button>
+        </header>
+
+        <main>
+            <!-- Screen 1: Setup -->
+            <section id="setupScreen" class="screen active">
+                <div class="card">
+                    <div class="input-group">
+                        <label for="speedInput">속도 입력 (Speed)</label>
+                        <div class="select-wrapper">
+                            <select id="speedInput">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="distanceInput">거리 설정 (Distance - km)</label>
+                        <div class="select-wrapper">
+                            <select id="distanceInput">
+                                <option value="1">1 km</option>
+                                <option value="3">3 km</option>
+                                <option value="5">5 km</option>
+                                <option value="10">10 km</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="timeInput">목표 시간 설정 (Target Time - min)</label>
+                        <input type="number" id="timeInput" placeholder="e.g. 30" min="1">
+                    </div>
+
+                    <button id="runBtn" class="primary-btn">Run</button>
+                </div>
+            </section>
+
+            <!-- Screen 2: Running -->
+            <section id="runningScreen" class="screen hidden">
+                <div class="card center-content">
+                    <div class="stats-display">
+                        <div class="stat-row">
+                            <span class="label">속도</span>
+                            <span class="value" id="currentSpeedDisplay">00' 00"</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="label">거리</span>
+                            <span class="value"><span id="currentDistanceDisplay">0</span> km</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="label">시간</span>
+                            <span class="value"><span id="currentTimeDisplay">0</span> 분</span>
+                        </div>
+                    </div>
+
+                    <button id="stopBtn" class="stop-btn">Stop</button>
+                </div>
+            </section>
+
+            <!-- Screen 3: Result -->
+            <section id="resultScreen" class="screen hidden">
+                <div class="card">
+                    <div class="result-stats">
+                        <div class="result-item">
+                            <span class="label">총 주행 거리</span>
+                            <span class="value"><span id="totalDistance">0</span> km</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">평균 속도</span>
+                            <span class="value" id="avgSpeed">00' 00"</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">총 시간</span>
+                            <span class="value"><span id="totalTime">0</span> 분</span>
+                        </div>
+                    </div>
+
+                    <button id="restartBtn" class="primary-btn">Restart</button>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
