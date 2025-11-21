@@ -1,14 +1,13 @@
 :root {
-    --bg-color: #000000;
-    --card-bg: #111111;
-    --text-color: #ffffff;
-    --accent-color: #ffffff;
+    --bg-color: #050505;
+    --card-bg: rgba(20, 20, 20, 0.7);
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --accent-cyan: #00f3ff;
+    --accent-lime: #ccff00;
     --border-color: #333333;
-    --input-bg: #000000;
-    --btn-primary-bg: #f0f0f0;
-    --btn-primary-text: #000000;
-    --btn-stop-bg: #f0f0f0;
-    --btn-stop-text: #000000;
+    --input-bg: rgba(0, 0, 0, 0.5);
+    --glass-border: rgba(255, 255, 255, 0.1);
 }
 
 * {
@@ -20,21 +19,24 @@
 body {
     font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
     background-color: var(--bg-color);
-    color: var(--text-color);
+    color: var(--text-primary);
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image:
+        radial-gradient(circle at 10% 20%, rgba(0, 243, 255, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(204, 255, 0, 0.05) 0%, transparent 20%);
 }
 
 .app-container {
     width: 100%;
-    max-width: 1200px;
-    /* Allow for wider layout to show flow if needed, or keep it centered */
-    padding: 2rem;
+    max-width: 480px;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     height: 100%;
+    max-height: 900px;
 }
 
 header {
@@ -42,28 +44,40 @@ header {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
+    padding: 0 0.5rem;
 }
 
 h1 {
-    font-size: 2rem;
-    font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: linear-gradient(to right, #fff, #a0a0a0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .icon-btn {
-    background: none;
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--accent-cyan);
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    backdrop-filter: blur(5px);
 }
 
 .icon-btn:hover {
-    background-color: var(--card-bg);
+    background: rgba(0, 243, 255, 0.1);
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
 }
 
 main {
@@ -77,34 +91,33 @@ main {
 .screen {
     position: absolute;
     width: 100%;
-    max-width: 400px;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
-    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(20px) scale(0.95);
 }
 
 .screen.active {
     opacity: 1;
     pointer-events: all;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     position: relative;
-    /* Allow it to take space */
 }
 
 .hidden {
     display: none;
-    /* Completely hide to prevent layout issues */
 }
 
 .card {
-    background-color: transparent;
-    border: 1px solid var(--border-color);
-    border-radius: 24px;
-    padding: 2rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 32px;
+    padding: 2.5rem 2rem;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 2rem;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     min-height: 500px;
     justify-content: space-between;
 }
@@ -112,31 +125,43 @@ main {
 .center-content {
     justify-content: center;
     align-items: center;
-    gap: 3rem;
+    gap: 4rem;
 }
 
 .input-group {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.8rem;
 }
 
 label {
-    font-size: 1rem;
-    color: #cccccc;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 input,
 select {
     background-color: var(--input-bg);
     border: 1px solid var(--border-color);
-    color: var(--text-color);
-    padding: 1rem;
-    border-radius: 8px;
-    font-size: 1.1rem;
+    color: var(--text-primary);
+    padding: 1.2rem;
+    border-radius: 16px;
+    font-size: 1.2rem;
+    font-weight: 600;
     width: 100%;
     appearance: none;
-    /* Remove default arrow */
+    transition: all 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
 }
 
 .select-wrapper {
@@ -144,67 +169,124 @@ select {
 }
 
 .select-wrapper::after {
-    content: 'v';
+    content: '';
     position: absolute;
-    right: 1rem;
+    right: 1.2rem;
     top: 50%;
     transform: translateY(-50%);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid var(--accent-cyan);
     pointer-events: none;
-    font-size: 0.8rem;
 }
 
-.primary-btn,
-.stop-btn {
-    background-color: var(--btn-primary-bg);
-    color: var(--btn-primary-text);
+input:disabled,
+select:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    border-color: #222;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, var(--accent-cyan), #00a8ff);
+    color: #000;
     border: none;
     padding: 1.2rem;
-    border-radius: 16px;
+    border-radius: 20px;
     font-size: 1.2rem;
-    font-weight: 600;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     cursor: pointer;
-    transition: transform 0.1s;
+    transition: all 0.3s ease;
     width: 100%;
     margin-top: auto;
+    box-shadow: 0 10px 20px rgba(0, 243, 255, 0.2);
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(0, 243, 255, 0.3);
+}
+
+.primary-btn:active {
+    transform: scale(0.98);
 }
 
 .stop-btn {
-    width: 200px;
-    height: 200px;
-    border-radius: 40px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff4d4d, #ff0000);
+    color: white;
+    border: none;
     font-size: 1.5rem;
-    margin: 0;
-    /* Reset margin-top: auto */
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
-.primary-btn:active,
-.stop-btn:active {
-    transform: scale(0.98);
+.stop-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.3s;
+}
+
+.stop-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 50px rgba(255, 0, 0, 0.5);
+}
+
+.stop-btn:hover::after {
+    opacity: 1;
+    transform: scale(1);
 }
 
 /* Running Screen Stats */
 .stats-display {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 2.5rem;
     text-align: center;
-    margin-bottom: 2rem;
+    width: 100%;
 }
 
 .stat-row {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 0.5rem;
 }
 
 .stat-row .label {
-    font-size: 1rem;
-    color: #888;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    letter-spacing: 2px;
 }
 
 .stat-row .value {
-    font-size: 1.5rem;
-    font-weight: 500;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    line-height: 1;
+}
+
+.stat-row:first-child .value {
+    color: var(--accent-cyan);
+    text-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
 }
 
 /* Result Screen Stats */
@@ -216,23 +298,22 @@ select {
 
 .result-item {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.result-item:last-child {
+    border-bottom: none;
 }
 
 .result-item .label {
     font-size: 1rem;
-    color: #888;
 }
 
 .result-item .value {
-    font-size: 2rem;
-    font-weight: 600;
-}
-
-input:disabled,
-select:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    border-color: #333;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent-lime);
 }
