@@ -189,10 +189,13 @@ async function connectBluetooth() {
         state.characteristic = characteristic;
         state.isConnected = true;
 
-        displays.connectionStatus.textContent = 'Connected';
-        displays.connectionStatus.style.color = '#4CAF50';
+        displays.connectionStatus.textContent = 'Disconnect';
+        displays.connectionStatus.style.color = '#FF5252'; // Red for disconnect action
 
         device.addEventListener('gattserverdisconnected', onDisconnected);
+
+        // Send handshake to update LCD
+        await sendToArduino('CONN');
 
     } catch (error) {
         console.error('Bluetooth connection failed:', error);
@@ -200,11 +203,17 @@ async function connectBluetooth() {
     }
 }
 
+function disconnectBluetooth() {
+    if (state.device && state.device.gatt.connected) {
+        state.device.gatt.disconnect();
+    }
+}
+
 function onDisconnected() {
     state.isConnected = false;
     displays.connectionStatus.textContent = 'Connect';
     displays.connectionStatus.style.color = 'inherit';
-    alert('Bluetooth disconnected');
+    // alert('Bluetooth disconnected'); // Optional: Remove alert to be less annoying on manual disconnect
 }
 
 async function sendToArduino(data) {
@@ -296,7 +305,13 @@ function restartApp() {
 }
 
 // Event Listeners
-buttons.connect.addEventListener('click', connectBluetooth);
+buttons.connect.addEventListener('click', () => {
+    if (state.isConnected) {
+        disconnectBluetooth();
+    } else {
+        connectBluetooth();
+    }
+});
 buttons.run.addEventListener('click', startRun);
 buttons.stop.addEventListener('click', stopRun);
 buttons.restart.addEventListener('click', restartApp);
