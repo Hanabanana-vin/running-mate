@@ -5,7 +5,6 @@
 LiquidCrystal_I2C lcd(0x27, 16, 2); // 필요하면 0x3F로 변경
 EVShield evshield;
 
-const int ledPin = 7; // LED IN (신호핀)
 bool running = false; // 현재 LED가 켜져 있는 상태인지
 bool lastGo = false;  // 직전 GO 버튼 상태 (엣지 감지용)
 
@@ -23,7 +22,7 @@ void showReady() {
 void showRunning(int speed) {
   lcd.clear();
   lcd.setCursor(0, 0);
-  lcd.print("LED ON");
+  lcd.print("Running...");
   lcd.setCursor(0, 1);
   lcd.print("Speed: " + String(speed));
 }
@@ -31,7 +30,7 @@ void showRunning(int speed) {
 void showStopped() {
   lcd.clear();
   lcd.setCursor(0, 0);
-  lcd.print("LED OFF");
+  lcd.print("Stopped");
   lcd.setCursor(0, 1);
   lcd.print("Ready to run?");
 }
@@ -43,9 +42,6 @@ void setup() {
   lcd.backlight();
 
   evshield.init(SH_HardwareI2C); // EVShield 초기화
-
-  pinMode(ledPin, OUTPUT);
-  digitalWrite(ledPin, LOW); // 시작은 꺼진 상태
 
   showReady();
 }
@@ -70,12 +66,12 @@ void processCommand(String command) {
     int speed = speedStr.toInt();
 
     running = true;
-    digitalWrite(ledPin, HIGH);
+
     showRunning(speed);
 
   } else if (command.indexOf("STOP") >= 0) {
     running = false;
-    digitalWrite(ledPin, LOW);
+
     showStopped();
   } else if (command.indexOf("CONN") >= 0) {
     showConnected();
@@ -106,16 +102,15 @@ void loop() {
     running = !running; // 상태 뒤집기
 
     if (running) {
-      // LED 켜기
-      digitalWrite(ledPin, HIGH);
+      // Running 표시)
       lcd.clear();
       lcd.setCursor(0, 0);
-      lcd.print("LED ON");
+      lcd.print("Running...");
       lcd.setCursor(0, 1);
       lcd.print("Manual Run");
     } else {
       // LED 끄기
-      digitalWrite(ledPin, LOW);
+
       showStopped();
     }
 
