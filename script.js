@@ -251,7 +251,7 @@ function startRun() {
     }
 
     // Update displays
-    displays.running.speed.textContent = state.targetSpeed + " km/h";
+    displays.running.speed.textContent = state.targetSpeed;
     displays.running.distance.textContent = "0.00";
     displays.running.time.textContent = "0";
 
