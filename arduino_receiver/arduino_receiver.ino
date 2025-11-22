@@ -81,10 +81,13 @@ void processCommand(String command) {
 
 void loop() {
   // 1. 블루투스/시리얼 명령 처리
-  if (stringComplete) {
-    processCommand(inputString);
-    inputString = "";
-    stringComplete = false;
+  while (Serial.available()) {
+    char inChar = (char)Serial.read();
+    inputString += inChar;
+    if (inChar == '\n') {
+      processCommand(inputString);
+      inputString = "";
+    }
   }
 
   // 2. EVShield의 GO 버튼 상태 읽기 (수동 제어)
@@ -95,8 +98,7 @@ void loop() {
     running = !running; // 상태 뒤집기
 
     if (running) {
-      // LED 켜기 (수동 시작 시 속도는 기본값 또는 이전값 표시가 애매하므로 그냥
-      // Running 표시)
+      // LED 켜기
       digitalWrite(ledPin, HIGH);
       lcd.clear();
       lcd.setCursor(0, 0);
@@ -115,17 +117,4 @@ void loop() {
   lastGo = goPressed;
 
   delay(20);
-}
-
-/*
-  SerialEvent는 하드웨어 시리얼 RX에 새로운 데이터가 들어올 때마다 호출됩니다.
-*/
-void serialEvent() {
-  while (Serial.available()) {
-    char inChar = (char)Serial.read();
-    inputString += inChar;
-    if (inChar == '\n') {
-      stringComplete = true;
-    }
-  }
 }
