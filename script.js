@@ -194,10 +194,10 @@ async function connectBluetooth() {
 
         device.addEventListener('gattserverdisconnected', onDisconnected);
 
-        // Send handshake to update LCD (with small delay to ensure connection is stable)
+        // Send handshake to update LCD (with longer delay to ensure connection is stable)
         setTimeout(async () => {
             await sendToArduino('CONN');
-        }, 500);
+        }, 1500);
 
     } catch (error) {
         console.error('Bluetooth connection failed:', error);

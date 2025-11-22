@@ -61,20 +61,23 @@ void showConnected() {
 void processCommand(String command) {
   command.trim();
 
-  if (command.startsWith("S:")) {
+  // indexOf를 사용하여 부분 일치도 허용 (더 안정적)
+  if (command.indexOf("S:") >= 0) {
     // Speed Command (e.g., "S:5")
-    String speedStr = command.substring(2);
+    // "S:" 위치를 찾아서 그 뒤의 숫자를 파싱
+    int index = command.indexOf("S:");
+    String speedStr = command.substring(index + 2);
     int speed = speedStr.toInt();
 
     running = true;
     digitalWrite(ledPin, HIGH);
     showRunning(speed);
 
-  } else if (command.equals("STOP")) {
+  } else if (command.indexOf("STOP") >= 0) {
     running = false;
     digitalWrite(ledPin, LOW);
     showStopped();
-  } else if (command.equals("CONN")) {
+  } else if (command.indexOf("CONN") >= 0) {
     showConnected();
   }
 }
@@ -83,10 +86,15 @@ void loop() {
   // 1. 블루투스/시리얼 명령 처리
   while (Serial.available()) {
     char inChar = (char)Serial.read();
-    inputString += inChar;
-    if (inChar == '\n') {
-      processCommand(inputString);
-      inputString = "";
+
+    // 줄바꿈 문자(\n) 또는 캐리지 리턴(\r)이 오면 명령 종료로 인식
+    if (inChar == '\n' || inChar == '\r') {
+      if (inputString.length() > 0) {
+        processCommand(inputString);
+        inputString = "";
+      }
+    } else {
+      inputString += inChar;
     }
   }
 
