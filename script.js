@@ -240,25 +240,24 @@ function formatTime(seconds) {
 }
 
 function startRun() {
-    // Get final values
-    state.targetSpeed = parseFloat(inputs.speed.value);
-    state.targetDistance = parseFloat(inputs.distance.value);
-    state.targetTime = parseFloat(inputs.time.value);
+    // 1) 일단 RUN 신호만 아두이노로 보낸다
+    sendToArduino('RUN');
 
-    if (!state.targetSpeed || state.targetSpeed <= 0) {
-        alert('Please set a valid speed.');
-        return;
-    }
+    // 2) UI 쪽 상태는 그냥 기본값으로 세팅
+    state.targetSpeed = parseFloat(inputs.speed.value) || 0;
+    state.targetDistance = parseFloat(inputs.distance.value) || 0;
+    state.targetTime = parseFloat(inputs.time.value) || 0;
 
-    // Update displays
+    // 러닝 화면 숫자들 초기화
     displays.running.speed.textContent = state.targetSpeed;
     displays.running.distance.textContent = "0.00";
     displays.running.time.textContent = "0";
 
-    // Send speed to Arduino
-    sendToArduino(`S:${state.targetSpeed}`);
-
-    // Start Timer
+    // 3) 타이머/거리 계산은 지금은 중요하지 않으니까
+    //    원래 로직 필요하면 나중에 다시 붙이면 됨
+    if (state.timerInterval) {
+        clearInterval(state.timerInterval);
+    }
     state.startTime = Date.now();
     state.elapsedSeconds = 0;
 
@@ -266,24 +265,19 @@ function startRun() {
         const now = Date.now();
         state.elapsedSeconds = Math.floor((now - state.startTime) / 1000);
 
-        // Update Time Display
         const mins = Math.floor(state.elapsedSeconds / 60);
         displays.running.time.textContent = mins;
 
-        // Calculate Distance based on Speed
+        // 간단한 가상 거리 업데이트 (모터랑은 관계 없음, UI용)
         const hours = state.elapsedSeconds / 3600;
         const currentDist = state.targetSpeed * hours;
         displays.running.distance.textContent = currentDist.toFixed(2);
-
-        // Check if goal reached
-        if (currentDist >= state.targetDistance) {
-            stopRun();
-        }
-
     }, 1000);
 
+    // 4) 화면 전환
     showScreen('running');
 }
+
 
 function stopRun() {
     clearInterval(state.timerInterval);
