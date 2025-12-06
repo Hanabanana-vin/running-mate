@@ -31,22 +31,15 @@
                     <!-- Central Speedometer (Hero) -->
                     <div class="hero-circle">
                         <div class="circle-content">
-                            <label>TARGET SPEED</label>
+                            <label>TARGET PACE</label>
                             <div class="speed-selector">
                                 <select id="speedInput">
-                                    <option value="0">0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
+                                    <option value="5:00">5'00"</option>
+                                    <option value="5:30">5'30"</option>
+                                    <option value="6:00">6'00"</option>
+                                    <option value="6:30">6'30"</option>
                                 </select>
-                                <span class="unit">km/h</span>
+                                <span class="unit">/km</span>
                             </div>
                         </div>
                         <div class="circle-glow"></div>
@@ -79,10 +72,10 @@
                     <!-- Active Speedometer -->
                     <div class="hero-circle running">
                         <div class="circle-content">
-                            <label>CURRENT SPEED</label>
+                            <label>CURRENT PACE</label>
                             <div class="value-display">
                                 <span id="currentSpeedDisplay">0</span>
-                                <span class="unit">km/h</span>
+                                <span class="unit">/km</span>
                             </div>
                         </div>
                         <div class="circle-progress"></div>
@@ -116,8 +109,8 @@
                             <span class="result-value"><span id="totalDistance">0</span> km</span>
                         </div>
                         <div class="result-row">
-                            <span>AVG SPEED</span>
-                            <span class="result-value" id="avgSpeed">0 km/h</span>
+                            <span>AVG PACE</span>
+                            <span class="result-value" id="avgSpeed">0 /km</span>
                         </div>
                         <div class="result-row">
                             <span>TOTAL TIME</span>

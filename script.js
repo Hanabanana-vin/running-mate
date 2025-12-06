@@ -52,6 +52,19 @@ let state = {
     elapsedSeconds: 0
 };
 
+// Pace to km/h converter (pace format: "5:00", "5:30", etc.)
+function paceToKmh(paceValue) {
+    const [mins, secs] = paceValue.split(':').map(Number);
+    const paceInMinutes = mins + (secs / 60);
+    return 60 / paceInMinutes; // km/h = 60 / (min/km)
+}
+
+// Get pace display from select value
+function getPaceDisplay(paceValue) {
+    const [mins, secs] = paceValue.split(':');
+    return `${mins}'${secs}"`;
+}
+
 // Navigation
 function showScreen(screenName) {
     Object.values(screens).forEach(s => {
@@ -105,7 +118,7 @@ function updateInputState() {
 }
 
 inputs.speed.addEventListener('change', () => {
-    const speed = parseFloat(inputs.speed.value);
+    const speed = paceToKmh(inputs.speed.value);
     const distance = parseFloat(inputs.distance.value);
 
     if (speed > 0 && distance > 0) {
@@ -118,7 +131,7 @@ inputs.speed.addEventListener('change', () => {
 });
 
 inputs.distance.addEventListener('change', () => {
-    const speed = parseFloat(inputs.speed.value);
+    const speed = paceToKmh(inputs.speed.value);
     const distance = parseFloat(inputs.distance.value);
     const time = parseFloat(inputs.time.value);
 
@@ -244,12 +257,13 @@ function startRun() {
     sendToArduino('RUN');
 
     // 2) UI 쪽 상태는 그냥 기본값으로 세팅
-    state.targetSpeed = parseFloat(inputs.speed.value) || 0;
+    state.targetPace = inputs.speed.value; // Store pace value (e.g., "5:00")
+    state.targetSpeed = paceToKmh(inputs.speed.value); // Convert to km/h for calculations
     state.targetDistance = parseFloat(inputs.distance.value) || 0;
     state.targetTime = parseFloat(inputs.time.value) || 0;
 
-    // 러닝 화면 숫자들 초기화
-    displays.running.speed.textContent = state.targetSpeed;
+    // 러닝 화면 숫자들 초기화 (페이스 형식으로 표시)
+    displays.running.speed.textContent = getPaceDisplay(state.targetPace);
     displays.running.distance.textContent = "0.00";
     displays.running.time.textContent = "0";
 
@@ -288,7 +302,7 @@ function stopRun() {
 
     displays.result.distance.textContent = totalDist.toFixed(2);
     displays.result.time.textContent = totalTimeMins;
-    displays.result.avgSpeed.textContent = state.targetSpeed + " km/h";
+    displays.result.avgSpeed.textContent = getPaceDisplay(state.targetPace) + "/km";
 
     showScreen('result');
 }
