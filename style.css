@@ -74,6 +74,12 @@ h1 {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
+.header-logo {
+    height: 36px;
+    width: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+}
+
 .icon-btn {
     background: rgba(0, 0, 0, 0.5);
     border: 1px solid var(--accent-cyan);
