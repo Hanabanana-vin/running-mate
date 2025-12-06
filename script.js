@@ -302,7 +302,7 @@ function stopRun() {
 
     displays.result.distance.textContent = totalDist.toFixed(2);
     displays.result.time.textContent = totalTimeMins;
-    displays.result.avgSpeed.textContent = getPaceDisplay(state.targetPace) + "/km";
+    displays.result.avgSpeed.textContent = getPaceDisplay(state.targetPace);
 
     showScreen('result');
 }
